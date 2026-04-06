@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,59 +7,142 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            background: linear-gradient(135deg, #e9f2ff, #f7f9fc);
+            padding: 40px 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background-color: white;
             padding: 30px;
-            background-color: #f4f4f4;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
         }
+
         h1 {
-            color: #333;
-            margin-bottom: 20px;
+            text-align: center;
+            color: #222;
+            margin-bottom: 25px;
         }
+
+        .task-form {
+            display: flex;
+            gap: 10px;
+        }
+
         input {
-            padding: 10px;
-            width: 250px;
+            flex: 1;
+            padding: 12px 14px;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
         }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+        }
+
         button {
-            padding: 10px 15px;
-            margin-left: 10px;
+            padding: 12px 18px;
             background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
+
         button:hover {
             background-color: #0056b3;
+            transform: translateY(-1px);
         }
+
         ul {
             list-style: none;
             padding: 0;
             margin-top: 20px;
         }
+
         li {
-            background-color: white;
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            padding: 14px 16px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        li:hover {
+            background-color: #f8f9fb;
+            transform: scale(1.01);
+        }
+
+        .empty-message {
+            color: #666;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-    <h1>Task Manager</h1>
-    <input type="text" id="taskInput" placeholder="Escribe una nueva tarea"> <!-- ID para JS  -->
-    <button id="addTaskBtn">Agregar Tarea</button> <!-- ID para JS -->
-    <ul id="taskList">  <!-- Lista donde se mostrarán las tareas -->
-        <li>Estudiar JavaScript</li> <!-- Tarea de ejemplo -->
-    </ul> <!-- ID para JS -->
+    <div class="container">
+        <h1>Task Manager</h1>
 
-<script>
-    // Obtener referencias a los elementos del DOM
-    const taskInput = document.querySelector("#taskInput");
-    const addTaskBtn = document.querySelector("#addTaskBtn");
-    const taskList = document.querySelector("#taskList");
-    addTaskBtn.addEventListener("click", ()=>{});
-</script>
+        <div class="task-form">
+            <input type="text" id="taskInput" placeholder="Escribe una nueva tarea">
+            <button id="addTaskBtn">Agregar Tarea</button>
+        </div>
+
+        <ul id="taskList">
+            <li>Estudiar JavaScript</li>
+        </ul>
+    </div>
+
+    <script>
+        const taskInput = document.querySelector("#taskInput");
+        const addTaskBtn = document.querySelector("#addTaskBtn");
+        const taskList = document.querySelector("#taskList");
+
+        function addTask() {
+            const taskText = taskInput.value.trim();
+
+            if (taskText === "") {
+                alert("No puedes agregar una tarea vacía");
+                return;
+            }
+
+            const li = document.createElement("li");
+            li.textContent = taskText;
+
+            taskList.appendChild(li);
+            taskInput.value = "";
+            taskInput.focus();
+        }
+
+        addTaskBtn.addEventListener("click", addTask);
+
+        taskInput.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                addTask();
+            }
+        });
+
+        taskList.addEventListener("click", (event) => {
+            if (event.target.tagName === "LI") {
+                event.target.remove();
+            }
+        });
+    </script>
 </body>
 </html>
